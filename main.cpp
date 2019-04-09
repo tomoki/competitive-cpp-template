@@ -37,7 +37,6 @@ using namespace std;
 
 #ifdef DEBUG
 #define dump(x) std::cerr << debug(x) << " (L:" << __LINE__ << ")" << std::endl
-#define MAY_RUN_TESTCASE
 #else
 #define dump(x)
 #endif
@@ -86,10 +85,30 @@ int my_main(int argc, char** argv)
 // ----------------------------------------------------------------------------
 // Test driver
 
+#ifdef DEBUG
+#define MAY_RUN_TESTCASE
+#endif
+
 #ifdef MAY_RUN_TESTCASE
-#include <filesystem>
 #include <fstream>
+
+#if __has_include(<unistd.h>)
+// Mac, Linux
+#include <unistd.h>
+#elif __has_include(<io.h>)
+// Windows
 #include <io.h>
+#else
+// Other?
+#error "unistd.h or io.h not found"
+#endif
+
+bool test_file_exists(const std::string& str)
+{
+    std::ifstream fs(str);
+    return fs.is_open();
+}
+
 #endif
 
 int main(int argc, char** argv)
@@ -113,19 +132,19 @@ int main(int argc, char** argv)
         std::string stdout_file = argv[3];
         std::string stderr_file = argv[4];
 
-        if (!std::filesystem::exists(stdin_file)) {
+        if (!test_file_exists(stdin_file)) {
             std::cerr << stdin_file << " not found" << std::endl;
             return 3;
         }
 
-        if (!std::filesystem::exists(expected_file)) {
+        if (!test_file_exists(expected_file)) {
             std::cerr << expected_file << " not found" << std::endl;
             return 3;
         }
 
-        int original_stdin = _dup(_fileno(stdin));
-        int original_stdout = _dup(_fileno(stdout));
-        int original_stderr = _dup(_fileno(stderr));
+        int original_stdin = dup(fileno(stdin));
+        int original_stdout = dup(fileno(stdout));
+        int original_stderr = dup(fileno(stderr));
 
         freopen(stdin_file.c_str(), "r", stdin);
         freopen(stdout_file.c_str(), "w", stdout);
@@ -136,9 +155,9 @@ int main(int argc, char** argv)
         fflush(stdout);
         fflush(stderr);
 
-        _dup2(original_stderr, _fileno(stderr));
-        _dup2(original_stdout, _fileno(stdout));
-        _dup2(original_stdin, _fileno(stdin));
+        dup2(original_stderr, fileno(stderr));
+        dup2(original_stdout, fileno(stdout));
+        dup2(original_stdin, fileno(stdin));
 
         if (ret != 0) {
             std::cerr << "main returns " << ret << std::endl;
@@ -169,7 +188,7 @@ int main(int argc, char** argv)
         std::cout << "----- stderr ----" << std::endl;
         std::cout << err.rdbuf() << std::endl;
         std::cout.clear();
-        std::cout << "-----------------" << std::endl << std::endl;
+        std::cout << "-----------------" << std::endl;
 
         inp.seekg(0);
         out.seekg(0);
@@ -191,13 +210,10 @@ int main(int argc, char** argv)
         output_str.erase(output_str.find_last_not_of(" \n\r\t") + 1);
         expected_str.erase(expected_str.find_last_not_of(" \n\r\t") + 1);
 
-        if (output_str == expected_str) {
-            std::cerr << "OK" << std::endl;
+        if (output_str == expected_str)
             return 0;
-        } else {
-            std::cerr << "Fail" << std::endl;
+        else
             return 1;
-        }
     }
     return 1;
 #endif

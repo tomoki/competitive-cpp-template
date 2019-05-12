@@ -21,6 +21,8 @@ function (add_my_test target test_number)
                                 ${CMAKE_SOURCE_DIR}/test/${test_number}.stdout
                                 ${CMAKE_SOURCE_DIR}/test/${test_number}.stderr
                                 )
+                                set_tests_properties( test_${test_number} PROPERTIES TIMEOUT 2)
+
 endfunction()
 
 add_executable (main main.cpp)

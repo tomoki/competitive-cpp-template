@@ -1,33 +1,33 @@
-#include <iostream>
-#include <iomanip>
-#include <vector>
-#include <valarray>
-#include <map>
-#include <set>
-#include <list>
-#include <queue>
-#include <stack>
-#include <bitset>
-#include <utility>
-#include <numeric>
 #include <algorithm>
-#include <functional>
-#include <complex>
-#include <string>
-#include <sstream>
 #include <array>
+#include <bitset>
+#include <complex>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <string>
+#include <utility>
+#include <valarray>
+#include <vector>
 
+#include <cassert>
+#include <cctype>
 #include <cstdio>
 #include <cstdlib>
-#include <cctype>
 #include <cstring>
-#include <cassert>
 
-#include <unordered_set>
-#include <unordered_map>
+#include <chrono>
 #include <random>
 #include <thread>
-#include <chrono>
+#include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -41,13 +41,12 @@ using namespace std;
 #define dump(x)
 #endif
 
-
 template <typename T>
-ostream &operator<<(ostream &os, const vector<T> &v)
+ostream& operator<<(ostream& os, const vector<T>& v)
 {
     os << "{";
-    for(auto it = v.begin(); it != v.end(); ++it) {
-        if(it != v.begin())
+    for (auto it = v.begin(); it != v.end(); ++it) {
+        if (it != v.begin())
             os << ",";
         os << *it;
     }
@@ -55,7 +54,7 @@ ostream &operator<<(ostream &os, const vector<T> &v)
 }
 
 template <typename A, typename B>
-ostream &operator<<(ostream &os, const pair<A, B> &v)
+ostream& operator<<(ostream& os, const pair<A, B>& v)
 {
     os << "{";
     os << v.first << ", " << v.second;
@@ -64,11 +63,8 @@ ostream &operator<<(ostream &os, const pair<A, B> &v)
 
 // ---------------------------------------------------------------------------
 
-
-
-
 using point = complex<double>;
-using ll = int64_t;
+using ll = long long;
 
 int my_main(int argc, char** argv)
 {
@@ -77,10 +73,6 @@ int my_main(int argc, char** argv)
 
     return 0;
 }
-
-
-
-
 
 // ----------------------------------------------------------------------------
 // Test driver
@@ -118,8 +110,7 @@ int main(int argc, char** argv)
 #else
     if (argc == 1) {
         return my_main(argc, argv);
-    }
-    else if (argc == 2) {
+    } else if (argc == 2) {
 
         char* stdin_file = argv[1];
         freopen(stdin_file, "r", stdin);
@@ -173,17 +164,20 @@ int main(int argc, char** argv)
         std::cout << "----- input -----" << std::endl;
         std::cout << inp.rdbuf() << std::endl;
         std::cout.clear();
-        std::cout << "-----------------" << std::endl << std::endl;
+        std::cout << "-----------------" << std::endl
+                  << std::endl;
 
         std::cout << "----- output ----" << std::endl;
         std::cout << out.rdbuf() << std::endl;
         std::cout.clear();
-        std::cout << "-----------------" << std::endl << std::endl;
+        std::cout << "-----------------" << std::endl
+                  << std::endl;
 
         std::cout << "---- expected ---" << std::endl;
         std::cout << exp.rdbuf() << std::endl;
         std::cout.clear();
-        std::cout << "-----------------" << std::endl << std::endl;
+        std::cout << "-----------------" << std::endl
+                  << std::endl;
 
         std::cout << "----- stderr ----" << std::endl;
         std::cout << err.rdbuf() << std::endl;

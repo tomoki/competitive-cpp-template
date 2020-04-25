@@ -172,13 +172,12 @@ istream& operator>>(istream& is, mod_int<MOD>& v)
     return is >> v.value();
 }
 
-const ll MOD = 1000000007;
-using md = mod_int<MOD>;
-
 // ---------------------------------------------------------------------------
 
 using point = complex<double>;
 using ll = long long;
+const ll MOD = 1000000007;
+using md = mod_int<MOD>;
 
 int my_main(int argc, char** argv)
 {

@@ -22,7 +22,7 @@
                     "ignoreFailures": true
                 }
             ]
-        }
+        },
         {
             "name": "Launch Test 1",
             "request": "launch",

@@ -203,6 +203,10 @@ int my_main(int argc, char** argv)
 #elif __has_include(<io.h>)
 // Windows
 #include <io.h>
+#pragma warning(disable : 4996)
+#define dup _dup
+#define dup2 _dup2
+#define fileno _fileno
 #else
 // Other?
 #error "unistd.h or io.h not found"
@@ -212,6 +216,82 @@ bool test_file_exists(const std::string& str)
 {
     std::ifstream fs(str);
     return fs.is_open();
+}
+
+void output_with_header(const std::string& filename, const std::string& header) {
+    std::ifstream f(filename);
+    // Clear is needed if the file is empty.
+    std::cout << "----- " << header << " -----" << std::endl;
+    std::cout << f.rdbuf() << std::endl;
+    std::cout.clear();
+    std::cout << "-----------------" << std::endl;
+}
+
+__declspec(dllexport)
+int execute_main_with_dummy_stds(const std::string& stdin_file_name, const std::string& expected_file_name, const std::string& stdout_file_name, const std::string& stderr_file_name)
+{
+
+    if (!test_file_exists(stdin_file_name)) {
+        std::cerr << stdin_file_name << " not found" << std::endl;
+        return 3;
+    }
+
+    if (!test_file_exists(expected_file_name)) {
+        std::cerr << expected_file_name << " not found" << std::endl;
+        return 3;
+    }
+
+    int original_stdin = dup(fileno(stdin));
+    int original_stdout = dup(fileno(stdout));
+    int original_stderr = dup(fileno(stderr));
+
+    freopen(stdin_file_name.c_str(), "r", stdin);
+    freopen(stdout_file_name.c_str(), "w", stdout);
+    freopen(stderr_file_name.c_str(), "w", stderr);
+
+    // FIXME:
+    int argc = 1;
+    char argv[][10] = { "main" };
+    int ret = my_main(argc, (char**) argv);
+
+    fflush(stdout);
+    fflush(stderr);
+
+    dup2(original_stderr, fileno(stderr));
+    dup2(original_stdout, fileno(stdout));
+    dup2(original_stdin, fileno(stdin));
+
+    if (ret != 0) {
+        std::cerr << "main returns " << ret << std::endl;
+        return ret;
+    }
+
+
+
+    std::ifstream inp(stdin_file_name);
+    std::ifstream out(stdout_file_name);
+    std::ifstream err(stderr_file_name);
+    std::ifstream exp(expected_file_name);
+
+    std::string output_str, expected_str;
+    {
+        std::stringstream output_ss;
+        output_ss << out.rdbuf();
+        output_str = output_ss.str();
+
+        std::stringstream expected_ss;
+        expected_ss << exp.rdbuf();
+        expected_str = expected_ss.str();
+    }
+
+    // Remove trailing spaces
+    output_str.erase(output_str.find_last_not_of(" \n\r\t") + 1);
+    expected_str.erase(expected_str.find_last_not_of(" \n\r\t") + 1);
+
+    if (output_str == expected_str)
+        return 0;
+    else
+        return 1;
 }
 
 #endif
@@ -230,97 +310,19 @@ int main(int argc, char** argv)
         return my_main(argc, argv);
 
     } else if (argc == 5) {
-
         std::string stdin_file = argv[1];
         std::string expected_file = argv[2];
         std::string stdout_file = argv[3];
         std::string stderr_file = argv[4];
 
-        if (!test_file_exists(stdin_file)) {
-            std::cerr << stdin_file << " not found" << std::endl;
-            return 3;
-        }
+        auto ret = execute_main_with_dummy_stds(stdin_file, expected_file, stdout_file, stderr_file);
+        output_with_header(stdin_file, "input");
+        output_with_header(expected_file, "output");
+        output_with_header(stdout_file, "expected");
+        output_with_header(stderr_file, "stderr");
 
-        if (!test_file_exists(expected_file)) {
-            std::cerr << expected_file << " not found" << std::endl;
-            return 3;
-        }
+        return ret;
 
-        int original_stdin = dup(fileno(stdin));
-        int original_stdout = dup(fileno(stdout));
-        int original_stderr = dup(fileno(stderr));
-
-        freopen(stdin_file.c_str(), "r", stdin);
-        freopen(stdout_file.c_str(), "w", stdout);
-        freopen(stderr_file.c_str(), "w", stderr);
-
-        int ret = my_main(argc, argv);
-
-        fflush(stdout);
-        fflush(stderr);
-
-        dup2(original_stderr, fileno(stderr));
-        dup2(original_stdout, fileno(stdout));
-        dup2(original_stdin, fileno(stdin));
-
-        if (ret != 0) {
-            std::cerr << "main returns " << ret << std::endl;
-            return ret;
-        }
-
-        std::ifstream inp(stdin_file);
-        std::ifstream out(stdout_file);
-        std::ifstream err(stderr_file);
-        std::ifstream exp(expected_file);
-
-        // Clear is needed if the file is empty.
-        std::cout << "----- input -----" << std::endl;
-        std::cout << inp.rdbuf() << std::endl;
-        std::cout.clear();
-        std::cout << "-----------------" << std::endl
-                  << std::endl;
-
-        std::cout << "----- output ----" << std::endl;
-        std::cout << out.rdbuf() << std::endl;
-        std::cout.clear();
-        std::cout << "-----------------" << std::endl
-                  << std::endl;
-
-        std::cout << "---- expected ---" << std::endl;
-        std::cout << exp.rdbuf() << std::endl;
-        std::cout.clear();
-        std::cout << "-----------------" << std::endl
-                  << std::endl;
-
-        std::cout << "----- stderr ----" << std::endl;
-        std::cout << err.rdbuf() << std::endl;
-        std::cout.clear();
-        std::cout << "-----------------" << std::endl;
-
-        inp.seekg(0);
-        out.seekg(0);
-        exp.seekg(0);
-        err.seekg(0);
-
-        std::string output_str, expected_str;
-        {
-            std::stringstream output_ss;
-            output_ss << out.rdbuf();
-            output_str = output_ss.str();
-
-            std::stringstream expected_ss;
-            expected_ss << exp.rdbuf();
-            expected_str = expected_ss.str();
-        }
-
-        // Remove trailing spaces
-        output_str.erase(output_str.find_last_not_of(" \n\r\t") + 1);
-        expected_str.erase(expected_str.find_last_not_of(" \n\r\t") + 1);
-
-        if (output_str == expected_str)
-            return 0;
-        else
-            return 1;
     }
     return 1;
 #endif

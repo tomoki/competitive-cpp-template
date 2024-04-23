@@ -317,10 +317,9 @@ int main(int argc, char** argv)
 
         auto ret = execute_main_with_dummy_stds(stdin_file, expected_file, stdout_file, stderr_file);
         output_with_header(stdin_file, "input");
-        output_with_header(expected_file, "output");
-        output_with_header(stdout_file, "expected");
+        output_with_header(stdout_file, "output");
+        output_with_header(expected_file, "expected");
         output_with_header(stderr_file, "stderr");
-
         return ret;
 
     }

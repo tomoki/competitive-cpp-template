@@ -1,3 +1,4 @@
+mkdir -p $1
 cp -r $(dirname "$0")/.vscode       $1
 cp -r $(dirname "$0")/test          $1
 cp -r $(dirname "$0")/main.cpp      $1

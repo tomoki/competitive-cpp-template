@@ -151,7 +151,8 @@ struct mod_int {
     {
         return mod_int(1) /= *this;
     }
-    uint_fast64_t& value()
+
+    uint_fast64_t value() const
     {
         return m_value;
     }

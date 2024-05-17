@@ -1,11 +1,12 @@
 cmake_minimum_required (VERSION 3.10)
+project(contest)
 enable_testing ()
 
 set (CMAKE_CXX_STANDARD 20)
 if (MSVC)
     add_compile_options (/W2)
 else()
-    add_compile_options (-Wall)
+    add_compile_options (-Wall -Wsign-compare -Wfloat-equal -Wshadow -Wno-unused-const-variable)
 endif()
 
 # DEBUG macro enables debug print, testdriver

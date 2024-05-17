@@ -192,10 +192,10 @@ int my_main(int argc, char** argv)
 // Test driver
 
 #ifdef DEBUG
-#define MAY_RUN_TESTCASE
+#define MAY_RUN_TEST_CASE
 #endif
 
-#ifdef MAY_RUN_TESTCASE
+#ifdef MAY_RUN_TEST_CASE
 #include <fstream>
 
 #if __has_include(<unistd.h>)
@@ -231,7 +231,7 @@ void output_with_header(const std::string& filename, const std::string& header) 
 #ifdef _WIN32
 __declspec(dllexport)
 #endif
-int execute_main_with_dummy_stds(const std::string& stdin_file_name, const std::string& expected_file_name, const std::string& stdout_file_name, const std::string& stderr_file_name)
+int execute_main_with_dummy_stdio(const std::string& stdin_file_name, const std::string& expected_file_name, const std::string& stdout_file_name, const std::string& stderr_file_name)
 {
 
     if (!test_file_exists(stdin_file_name)) {
@@ -301,7 +301,7 @@ int execute_main_with_dummy_stds(const std::string& stdin_file_name, const std::
 
 int main(int argc, char** argv)
 {
-#ifndef MAY_RUN_TESTCASE
+#ifndef MAY_RUN_TEST_CASE
     return my_main(argc, argv);
 #else
     if (argc == 1) {
@@ -318,7 +318,7 @@ int main(int argc, char** argv)
         std::string stdout_file = argv[3];
         std::string stderr_file = argv[4];
 
-        auto ret = execute_main_with_dummy_stds(stdin_file, expected_file, stdout_file, stderr_file);
+        auto ret = execute_main_with_dummy_stdio(stdin_file, expected_file, stdout_file, stderr_file);
         output_with_header(stdin_file, "input");
         output_with_header(stdout_file, "output");
         output_with_header(expected_file, "expected");

@@ -182,8 +182,6 @@ using md = mod_int<MOD>;
 
 int my_main(int argc, char** argv)
 {
-    ios::sync_with_stdio(false);
-    cin.tie(0);
 
     return 0;
 }
@@ -287,20 +285,42 @@ int execute_main_with_dummy_stdio(const std::string& stdin_file_name, const std:
         expected_str = expected_ss.str();
     }
 
-    // Remove trailing spaces
-    output_str.erase(output_str.find_last_not_of(" \n\r\t") + 1);
-    expected_str.erase(expected_str.find_last_not_of(" \n\r\t") + 1);
+    // Most of contest sites removes the tailing spaces.
+    const bool IGNORE_TRAILING_SPACE = true;
 
-    if (output_str == expected_str)
-        return 0;
-    else
-        return 1;
+    if (IGNORE_TRAILING_SPACE) {
+        output_str.erase(output_str.find_last_not_of(" \n\r\t") + 1);
+        expected_str.erase(expected_str.find_last_not_of(" \n\r\t") + 1);
+    }
+
+    {
+        std::stringstream output_ss(output_str);
+        std::stringstream expected_ss(expected_str);
+
+        std::string output_line, expected_line;
+        while (std::getline(output_ss, output_line) && std::getline(expected_ss, expected_line)) {
+            // Remove trailing spaces
+            if (IGNORE_TRAILING_SPACE) {
+                output_line.erase(output_line.find_last_not_of(" \n\r\t") + 1);
+                expected_line.erase(expected_line.find_last_not_of(" \n\r\t") + 1);
+            }
+            if (output_line != expected_line)
+                return 1;
+        }
+        // Check if both ends
+        if (!output_ss.eof() || !expected_ss.eof())
+            return 1;
+    }
+    return 0;
 }
 
 #endif
 
 int main(int argc, char** argv)
 {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+
 #ifndef MAY_RUN_TEST_CASE
     return my_main(argc, argv);
 #else

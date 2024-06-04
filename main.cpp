@@ -86,16 +86,16 @@ struct mod_int {
         : m_value(0)
     {
     }
-    constexpr mod_int(uint_fast64_t x) noexcept
+    constexpr mod_int(uint_fast64_t x) noexcept // NOLINT
         : m_value((x + MOD) % MOD)
     {
     }
 
-    constexpr mod_int(long long x) noexcept
+    constexpr mod_int(long long x) noexcept // NOLINT
         : m_value((x + MOD) % MOD)
     {
     }
-    constexpr mod_int(int x) noexcept
+    constexpr mod_int(int x) noexcept // NOLINT
         : m_value((x + MOD) % MOD)
     {
     }
@@ -153,7 +153,7 @@ struct mod_int {
         return mod_int(1) /= *this;
     }
 
-    uint_fast64_t value() const
+    [[nodiscard]] uint_fast64_t value() const
     {
         return m_value;
     }
@@ -178,7 +178,7 @@ istream& operator>>(istream& is, mod_int<MOD>& v)
 
 using point = complex<double>;
 using ll = long long;
-const ll MOD = 1000000007;
+constexpr ll MOD = 1000000007;
 using md = mod_int<MOD>;
 
 int my_main(int argc, char** argv)
@@ -263,7 +263,7 @@ int execute_main_with_dummy_stdio(const std::string& stdin_file_name, const std:
     dup2(original_stdout, fileno(stdout));
     dup2(original_stdin, fileno(stdin));
 
-    if (ret != 0) {
+    if (ret != 0) { // NOLINT
         std::cerr << "main returns " << ret << std::endl;
         return ret;
     }
@@ -320,7 +320,7 @@ int execute_main_with_dummy_stdio(const std::string& stdin_file_name, const std:
 int main(int argc, char** argv)
 {
     ios::sync_with_stdio(false);
-    cin.tie(0);
+    cin.tie(nullptr);
 
 #ifndef MAY_RUN_TEST_CASE
     return my_main(argc, argv);
@@ -339,7 +339,7 @@ int main(int argc, char** argv)
         std::string stdout_file = argv[3];
         std::string stderr_file = argv[4];
 
-        auto ret = execute_main_with_dummy_stdio(stdin_file, expected_file, stdout_file, stderr_file);
+        const auto ret = execute_main_with_dummy_stdio(stdin_file, expected_file, stdout_file, stderr_file);
         output_with_header(stdin_file, "input");
         output_with_header(stdout_file, "output");
         output_with_header(expected_file, "expected");

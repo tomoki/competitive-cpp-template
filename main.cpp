@@ -16,6 +16,7 @@
 #include <utility>
 #include <valarray>
 #include <vector>
+#include <optional>
 
 #include <cassert>
 #include <cctype>
@@ -32,7 +33,7 @@
 using namespace std;
 
 #define all(c) c.begin(), c.end()
-#define repeat(i, n) for (int i = 0; i < static_cast<int>(n); i++)
+#define rep(i, n) for (int i = 0; i < static_cast<int>(n); i++)
 #define debug(x) #x << "=" << (x)
 
 #ifdef DEBUG

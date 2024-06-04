@@ -130,12 +130,12 @@
             }
         },
         {
-            "name": "Launch testcase 1",
+            "name": "Launch testcase 5",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/main",
             "args": [
-                "${workspaceFolder}/test/1.in"
+                "${workspaceFolder}/test/5.in"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

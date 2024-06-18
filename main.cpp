@@ -181,7 +181,7 @@ using ll = long long;
 constexpr ll MOD = 1000000007;
 using md = mod_int<MOD>;
 
-int my_main(int argc, char** argv)
+int my_main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 {
 
     return 0;

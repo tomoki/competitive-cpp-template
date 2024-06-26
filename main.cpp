@@ -62,6 +62,19 @@ ostream& operator<<(ostream& os, const pair<A, B>& v)
     return os << "}";
 }
 
+template <typename K, typename V>
+ostream& operator<<(ostream& os, const map<K, V>& v)
+{
+    os << "{";
+    for (auto it = v.begin(); it != v.end(); ++it) {
+        if (it != v.begin())
+            os << ",";
+        os << *it;
+    }
+    return os << "}";
+}
+
+
 template <typename T>
 T input()
 {

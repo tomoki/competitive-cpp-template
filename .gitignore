@@ -4,3 +4,4 @@ vs/.vs
 vs/
 test/*.stderr
 test/*.stdout
+cmake-build-debug

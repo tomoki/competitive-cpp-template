@@ -1,10 +1,14 @@
-mkdir -p $1
-cp -r $(dirname "$0")/.vscode       $1
-cp -r $(dirname "$0")/test          $1
-rm -r $1/test/*.stderr
-rm -r $1/test/*.stdout
-cp -r $(dirname "$0")/main.cpp      $1
-cp -r $(dirname "$0")/.clang-format $1
-cp -r $(dirname "$0")/.editorconfig $1
-cp -r $(dirname "$0")/.gitignore    $1
-cp -r $(dirname "$0")/CMakeLists.txt $1
+for dir in "$@"
+do
+    mkdir -p $dir
+    cp -r $(dirname "$0")/.vscode       $dir
+    cp -r $(dirname "$0")/test          $dir
+    rm -r $dir/test/*.stderr
+    rm -r $dir/test/*.stdout
+    cp -r $(dirname "$0")/main.cpp      $dir
+    cp -r $(dirname "$0")/.clang-format $dir
+    cp -r $(dirname "$0")/.editorconfig $dir
+    cp -r $(dirname "$0")/.gitignore    $dir
+    cp -r $(dirname "$0")/CMakeLists.txt $dir
+done
+

@@ -34,12 +34,15 @@ using namespace std;
 
 #define all(c) c.begin(), c.end()
 #define rep(i, n) for (int i = 0; i < static_cast<int>(n); i++)
+#define repv(a, v) for (auto& a : v)
 #define debug(x) #x << "=" << (x)
 
 #ifdef DEBUG
 #define dump(x) std::cerr << debug(x) << " (L:" << __LINE__ << ")" << std::endl
+#define dump2(x, y) std::cerr << debug(x) << " " << debug(y) << " (L:" << __LINE__ << ")" << std::endl
 #else
 #define dump(x)
+#define dump2(x, y)
 #endif
 
 template <typename T>
@@ -57,9 +60,7 @@ ostream& operator<<(ostream& os, const vector<T>& v)
 template <typename A, typename B>
 ostream& operator<<(ostream& os, const pair<A, B>& v)
 {
-    os << "{";
-    os << v.first << ", " << v.second;
-    return os << "}";
+    return os << "{" << v.first << ", " << v.second << "}";
 }
 
 template <typename K, typename V>
@@ -74,23 +75,22 @@ ostream& operator<<(ostream& os, const map<K, V>& v)
     return os << "}";
 }
 
-
-template <typename T>
-T input()
-{
-    T x;
-    cin >> x;
-    return x;
-}
-
 template <typename T>
 vector<T> input_vector(size_t n)
 {
     vector<T> x(n);
     for (size_t i = 0; i < n; i++)
         cin >> x[i];
-
     return x;
+}
+
+template<typename T>
+void chmax(T& a, const T& b) {
+    if (a < b) a = b;
+}
+template<typename T>
+void chmin(T& a, const T& b) {
+    if (a > b) a = b;
 }
 
 template <uint_fast64_t MOD>
@@ -191,12 +191,15 @@ istream& operator>>(istream& is, mod_int<MOD>& v)
 
 using point = complex<double>;
 using ll = long long;
+using vi = vector<int>;
+using vvi = vector<vector<int>>;
+using vll = vector<ll>;
+using vvll = vector<vector<ll>>;
 constexpr ll MOD = 1000000007;
 using md = mod_int<MOD>;
 
 int my_main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 {
-
     return 0;
 }
 

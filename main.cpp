@@ -38,11 +38,16 @@ using namespace std;
 #define debug(x) #x << "=" << (x)
 
 #ifdef DEBUG
-#define dump(x) std::cerr << debug(x) << " (L:" << __LINE__ << ")" << std::endl
-#define dump2(x, y) std::cerr << debug(x) << " " << debug(y) << " (L:" << __LINE__ << ")" << std::endl
+#define _dump0() std::cerr << "(L:" << __LINE__ << ")" << std::endl
+#define _dump1(a1) std::cerr << debug(a1) << " (L:" << __LINE__ << ")" << std::endl
+#define _dump2(a1, a2) std::cerr << debug(a1) << " " << debug(a2) << " (L:" << __LINE__ << ")" << std::endl
+#define _dump3(a1, a2, a3) std::cerr << debug(a1) << " " << debug(a2) << " " << debug(a3) << " (L:" << __LINE__ << ")" << std::endl
+#define _dump4(a1, a2, a3, a4) std::cerr << debug(a1) << " " << debug(a2) << " " << debug(a3) << " " << debug(a4) <<  " (L:" << __LINE__ << ")" << std::endl
+#define _dump5(a1, a2, a3, a4, a5) std::cerr << debug(a1) << " " << debug(a2) << " " << debug(a3) << " " << debug(a4) << " " << debug(a5) << " (L:" << __LINE__ << ")" << std::endl
+#define _dump_overload(e5, e4, e3, e2, e1, COUNT, ...) _dump ## COUNT
+#define dump(...) _dump_overload(__VA_ARGS__ __VA_OPT__(,) 5, 4, 3, 2, 1, 0)(__VA_ARGS__)
 #else
-#define dump(x)
-#define dump2(x, y)
+#define dump(...)
 #endif
 
 template <typename T>

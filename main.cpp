@@ -80,6 +80,39 @@ ostream& operator<<(ostream& os, const map<K, V>& v)
     return os << "}";
 }
 
+template <typename K, typename V>
+ostream& operator<<(ostream& os, const set<V>& v)
+{
+    os << "{";
+    for (auto it = v.begin(); it != v.end(); ++it) {
+        if (it != v.begin())
+            os << ",";
+        os << *it;
+    }
+    return os << "}";
+}
+
+template<typename T>
+T binary_method(std::function<bool(T)> func, T ok, T fail)
+{
+    static_assert(std::is_integral_v<T> || std::is_floating_point_v<T>);
+
+    assert(func(ok) == true);
+    assert(func(fail) == false);
+
+    T EPS;
+    if constexpr (std::is_integral_v<T>) EPS = 1;
+    else if (std::is_floating_point_v<T>) EPS = 1e-9;
+
+    while (abs(ok - fail) > EPS) {
+        T mid = std::midpoint(ok, fail);
+        if (func(mid)) ok = mid;
+        else fail = mid;
+    }
+
+    return ok;
+}
+
 template <typename T>
 vector<T> input_vector(size_t n)
 {

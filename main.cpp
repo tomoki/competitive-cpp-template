@@ -93,12 +93,12 @@ ostream& operator<<(ostream& os, const set<V>& v)
 }
 
 template<typename T>
-T binary_method(std::function<bool(T)> func, T ok, T fail)
+T binary_method(std::function<bool(T)> pred, T ok, T fail)
 {
     static_assert(std::is_integral_v<T> || std::is_floating_point_v<T>);
 
-    assert(func(ok) == true);
-    assert(func(fail) == false);
+    assert(pred(ok) == true);
+    assert(pred(fail) == false);
 
     T EPS;
     if constexpr (std::is_integral_v<T>) EPS = 1;
@@ -106,7 +106,7 @@ T binary_method(std::function<bool(T)> func, T ok, T fail)
 
     while (abs(ok - fail) > EPS) {
         T mid = std::midpoint(ok, fail);
-        if (func(mid)) ok = mid;
+        if (pred(mid)) ok = mid;
         else fail = mid;
     }
 

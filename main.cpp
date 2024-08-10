@@ -50,6 +50,12 @@ using namespace std;
 #define dump(...)
 #endif
 
+template <typename A, typename B>
+ostream& operator<<(ostream& os, const pair<A, B>& v)
+{
+    return os << "{" << v.first << ", " << v.second << "}";
+}
+
 template <typename T>
 ostream& operator<<(ostream& os, const vector<T>& v)
 {
@@ -60,12 +66,6 @@ ostream& operator<<(ostream& os, const vector<T>& v)
         os << *it;
     }
     return os << "}";
-}
-
-template <typename A, typename B>
-ostream& operator<<(ostream& os, const pair<A, B>& v)
-{
-    return os << "{" << v.first << ", " << v.second << "}";
 }
 
 template <typename K, typename V>

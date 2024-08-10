@@ -133,61 +133,19 @@ void chmin(T& a, const T& b) {
 
 template <uint_fast64_t MOD>
 struct mod_int {
-    mod_int() noexcept
-        : m_value(0)
-    {
-    }
-    constexpr mod_int(uint_fast64_t x) noexcept // NOLINT
-        : m_value((x + MOD) % MOD)
-    {
-    }
+    mod_int() noexcept : m_value(0) { }
+    constexpr mod_int(uint_fast64_t x) noexcept : m_value((x + MOD) % MOD)  { } // NOLINT
 
-    constexpr mod_int(long long x) noexcept // NOLINT
-        : m_value((x + MOD) % MOD)
-    {
-    }
-    constexpr mod_int(int x) noexcept // NOLINT
-        : m_value((x + MOD) % MOD)
-    {
-    }
-
-    constexpr mod_int operator+(const mod_int rhs) const noexcept
-    {
-        return mod_int(m_value) += rhs;
-    }
-    constexpr mod_int operator-(const mod_int rhs) const noexcept
-    {
-        return mod_int(m_value) -= rhs;
-    }
-    constexpr mod_int operator*(const mod_int rhs) const noexcept
-    {
-        return mod_int(m_value) *= rhs;
-    }
-    constexpr mod_int operator/(const mod_int rhs) const noexcept
-    {
-        return mod_int(m_value) /= rhs;
-    }
-    constexpr mod_int& operator+=(const mod_int rhs) noexcept
-    {
-        m_value += rhs.m_value;
-        if (m_value >= MOD)
-            m_value %= MOD;
-        return *this;
-    }
-    constexpr mod_int operator-=(const mod_int rhs) noexcept
-    {
-        if (m_value < rhs.m_value)
-            m_value += MOD;
-        m_value -= rhs.m_value;
-        return *this;
-    }
-    constexpr mod_int operator*=(const mod_int rhs) noexcept
-    {
-        m_value = m_value * rhs.m_value % MOD;
-        return *this;
-    }
-    constexpr mod_int operator/=(mod_int rhs) noexcept
-    {
+    constexpr mod_int(long long x) noexcept : m_value((x + MOD) % MOD) { } // NOLINT
+    constexpr mod_int(int x) noexcept : m_value((x + MOD) % MOD) { }  // NOLINT
+    friend constexpr mod_int operator+(mod_int lhs, const mod_int& rhs) noexcept { lhs += rhs; return lhs; }
+    friend constexpr mod_int operator-(mod_int lhs, const mod_int& rhs) noexcept { lhs -= rhs; return lhs; }
+    friend constexpr mod_int operator*(mod_int lhs, const mod_int& rhs) noexcept { lhs *= rhs; return lhs; }
+    friend constexpr mod_int operator/(mod_int lhs, const mod_int& rhs) noexcept { lhs /= rhs; return lhs; }
+    constexpr mod_int& operator+=(const mod_int& rhs) noexcept { m_value += rhs.m_value; m_value %= MOD; return *this; }
+    constexpr mod_int& operator*=(const mod_int& rhs) noexcept { m_value *= rhs.m_value; m_value %= MOD; return *this; }
+    constexpr mod_int& operator-=(const mod_int& rhs) noexcept { m_value += (MOD - rhs.m_value); m_value %= MOD; return *this; }
+    constexpr mod_int& operator/=(const mod_int& rhs) noexcept {
         uint_fast64_t exp = MOD - 2;
         while (exp > 0) {
             if (exp % 2 == 1)
@@ -195,36 +153,18 @@ struct mod_int {
             rhs *= rhs;
             exp /= 2;
         }
-
         return *this;
     }
-
-    mod_int inv() const noexcept
-    {
-        return mod_int(1) /= *this;
-    }
-
-    [[nodiscard]] uint_fast64_t value() const
-    {
-        return m_value;
-    }
+    [[nodiscard]] mod_int inv() const noexcept { return mod_int(1) /= *this; }
+    [[nodiscard]] uint_fast64_t value() const { return m_value; }
 
 private:
     uint_fast64_t m_value;
 };
-
 template <uint_fast64_t MOD>
-ostream& operator<<(ostream& os, const mod_int<MOD>& v)
-{
-    return os << v.value();
-}
-
+ostream& operator<<(ostream& os, const mod_int<MOD>& v) { return os << v.value(); }
 template <uint_fast64_t MOD>
-istream& operator>>(istream& is, mod_int<MOD>& v)
-{
-    return is >> v.value();
-}
-
+istream& operator>>(istream& is, mod_int<MOD>& v) { return is >> v.value(); }
 // ---------------------------------------------------------------------------
 
 using point = complex<double>;
@@ -233,6 +173,7 @@ using vi = vector<int>;
 using vvi = vector<vector<int>>;
 using vll = vector<ll>;
 using vvll = vector<vector<ll>>;
+using vs = vector<string>;
 constexpr ll MOD = 1000000007;
 using md = mod_int<MOD>;
 

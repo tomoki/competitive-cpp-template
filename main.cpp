@@ -133,7 +133,7 @@ struct mod_int {
     constexpr mod_int& operator+=(const mod_int& rhs) noexcept { m_value += rhs.m_value; m_value %= MOD; return *this; }
     constexpr mod_int& operator*=(const mod_int& rhs) noexcept { m_value *= rhs.m_value; m_value %= MOD; return *this; }
     constexpr mod_int& operator-=(const mod_int& rhs) noexcept { m_value += (MOD - rhs.m_value); m_value %= MOD; return *this; }
-    constexpr mod_int& operator/=(const mod_int& rhs) noexcept {
+    constexpr mod_int& operator/=(mod_int rhs) noexcept {
         uint_fast64_t exp = MOD - 2;
         while (exp > 0) {
             if (exp % 2 == 1)

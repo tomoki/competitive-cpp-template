@@ -1,3 +1,4 @@
+// clang-format off
 #include <algorithm>
 #include <array>
 #include <bitset>
@@ -51,10 +52,7 @@ using namespace std;
 #endif
 
 template <typename A, typename B>
-ostream& operator<<(ostream& os, const pair<A, B>& v)
-{
-    return os << "{" << v.first << ", " << v.second << "}";
-}
+ostream& operator<<(ostream& os, const pair<A, B>& v) { return os << "{" << v.first << ", " << v.second << "}"; }
 
 template <typename T>
 ostream& operator<<(ostream& os, const vector<T>& v)
@@ -93,13 +91,11 @@ ostream& operator<<(ostream& os, const set<V>& v)
 }
 
 template<typename T>
-T binary_method(std::function<bool(T)> pred, T ok, T fail)
+T binary_method(const std::function<bool(T)>& pred, T ok, T fail)
 {
     static_assert(std::is_integral_v<T> || std::is_floating_point_v<T>);
-
     assert(pred(ok) == true);
     assert(pred(fail) == false);
-
     T EPS;
     if constexpr (std::is_integral_v<T>) EPS = 1;
     else if (std::is_floating_point_v<T>) EPS = 1e-9;
@@ -117,25 +113,17 @@ template <typename T>
 vector<T> input_vector(size_t n)
 {
     vector<T> x(n);
-    for (size_t i = 0; i < n; i++)
-        cin >> x[i];
+    for (size_t i = 0; i < n; i++) cin >> x[i];
     return x;
 }
 
-template<typename T>
-void chmax(T& a, const T& b) {
-    if (a < b) a = b;
-}
-template<typename T>
-void chmin(T& a, const T& b) {
-    if (a > b) a = b;
-}
+template<typename T> void chmax(T& a, const T& b) { if (a < b) a = b; }
+template<typename T> void chmin(T& a, const T& b) { if (a > b) a = b; }
 
 template <uint_fast64_t MOD>
 struct mod_int {
     mod_int() noexcept : m_value(0) { }
     constexpr mod_int(uint_fast64_t x) noexcept : m_value((x + MOD) % MOD)  { } // NOLINT
-
     constexpr mod_int(long long x) noexcept : m_value((x + MOD) % MOD) { } // NOLINT
     constexpr mod_int(int x) noexcept : m_value((x + MOD) % MOD) { }  // NOLINT
     friend constexpr mod_int operator+(mod_int lhs, const mod_int& rhs) noexcept { lhs += rhs; return lhs; }
@@ -157,14 +145,12 @@ struct mod_int {
     }
     [[nodiscard]] mod_int inv() const noexcept { return mod_int(1) /= *this; }
     [[nodiscard]] uint_fast64_t value() const { return m_value; }
-
 private:
     uint_fast64_t m_value;
 };
-template <uint_fast64_t MOD>
-ostream& operator<<(ostream& os, const mod_int<MOD>& v) { return os << v.value(); }
-template <uint_fast64_t MOD>
-istream& operator>>(istream& is, mod_int<MOD>& v) { return is >> v.value(); }
+template <uint_fast64_t MOD> ostream& operator<<(ostream& os, const mod_int<MOD>& v) { return os << v.value(); }
+template <uint_fast64_t MOD> istream& operator>>(istream& is, mod_int<MOD>& v) { return is >> v.value(); }
+// clang-format on
 // ---------------------------------------------------------------------------
 
 using point = complex<double>;
@@ -176,6 +162,8 @@ using vvll = vector<vector<ll>>;
 using vs = vector<string>;
 constexpr ll MOD = 1000000007;
 using md = mod_int<MOD>;
+constexpr array<int, 4> dx = {1, 0, -1, 0};
+constexpr array<int, 4> dy = {0, -1, 0, 1};
 
 int my_main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 {
@@ -183,6 +171,7 @@ int my_main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 }
 
 // ----------------------------------------------------------------------------
+// clang-format off
 // Test driver
 
 #ifdef DEBUG
@@ -192,7 +181,7 @@ int my_main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 #ifdef MAY_RUN_TEST_CASE
 #include <fstream>
 
-#if __has_include(<unistd.h>)
+#if __has_include(<unistd.h> )
 // Mac, Linux
 #include <unistd.h>
 #elif __has_include(<io.h>)

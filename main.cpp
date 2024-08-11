@@ -109,6 +109,14 @@ T binary_method(const std::function<bool(T)>& pred, T ok, T fail)
     return ok;
 }
 
+template<typename T, typename R>
+constexpr T powi(T x, R n, T one = 1) {
+    if (n == 0) return one;
+    T ret = powi(x * x, n / 2, one);
+    if (n % 2 == 1) ret *= x;
+    return ret;
+}
+
 template <typename T>
 vector<T> input_vector(size_t n)
 {

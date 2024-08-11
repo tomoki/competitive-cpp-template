@@ -1,4 +1,4 @@
-// clang-format off
+// clang-format off NOLINTBEGIN
 #include <algorithm>
 #include <array>
 #include <bitset>
@@ -30,6 +30,7 @@
 #include <thread>
 #include <unordered_map>
 #include <unordered_set>
+// NOLINTEND
 
 using namespace std;
 
@@ -246,7 +247,7 @@ int execute_main_with_dummy_stdio(const std::string& stdin_file_name, const std:
     // FIXME:
     int argc = 1;
     char argv[][10] = { "main" };
-    int ret = my_main(argc, (char**) argv);
+    int ret = my_main(argc, reinterpret_cast<char**>(argv));
 
     fflush(stdout);
     fflush(stderr);
@@ -255,12 +256,12 @@ int execute_main_with_dummy_stdio(const std::string& stdin_file_name, const std:
     dup2(original_stdout, fileno(stdout));
     dup2(original_stdin, fileno(stdin));
 
-    if (ret != 0) { // NOLINT
+    // NOLINTBEGIN
+    if (ret != 0) {
         std::cerr << "main returns " << ret << std::endl;
         return ret;
     }
-
-
+    // NOLINTEND
 
     std::ifstream inp(stdin_file_name);
     std::ifstream out(stdout_file_name);
@@ -279,7 +280,7 @@ int execute_main_with_dummy_stdio(const std::string& stdin_file_name, const std:
     }
 
     // Most of contest sites removes the tailing spaces.
-    const bool IGNORE_TRAILING_SPACE = true;
+    constexpr bool IGNORE_TRAILING_SPACE = true;
 
     if (IGNORE_TRAILING_SPACE) {
         output_str.erase(output_str.find_last_not_of(" \n\r\t") + 1);

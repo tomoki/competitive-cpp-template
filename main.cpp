@@ -139,6 +139,8 @@ struct mod_int {
     friend constexpr mod_int operator-(mod_int lhs, const mod_int& rhs) noexcept { lhs -= rhs; return lhs; }
     friend constexpr mod_int operator*(mod_int lhs, const mod_int& rhs) noexcept { lhs *= rhs; return lhs; }
     friend constexpr mod_int operator/(mod_int lhs, const mod_int& rhs) noexcept { lhs /= rhs; return lhs; }
+    friend constexpr bool operator==(const mod_int& lhs, const mod_int& rhs) noexcept { return lhs.m_value == rhs.m_value; }
+    friend constexpr bool operator!=(const mod_int& lhs, const mod_int& rhs) noexcept { return lhs.m_value != rhs.m_value; }
     constexpr mod_int& operator+=(const mod_int& rhs) noexcept { m_value += rhs.m_value; m_value %= MOD; return *this; }
     constexpr mod_int& operator*=(const mod_int& rhs) noexcept { m_value *= rhs.m_value; m_value %= MOD; return *this; }
     constexpr mod_int& operator-=(const mod_int& rhs) noexcept { m_value += (MOD - rhs.m_value); m_value %= MOD; return *this; }

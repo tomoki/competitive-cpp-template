@@ -79,7 +79,7 @@ ostream& operator<<(ostream& os, const map<K, V>& v)
     return os << "}";
 }
 
-template <typename K, typename V>
+template <typename V>
 ostream& operator<<(ostream& os, const set<V>& v)
 {
     os << "{";
@@ -281,7 +281,7 @@ int execute_main_with_dummy_stdio(const std::string& stdin_file_name, const std:
         expected_str = expected_ss.str();
     }
 
-    // Most of contest sites removes the tailing spaces.
+    // Most contest sites removes the tailing spaces.
     constexpr bool IGNORE_TRAILING_SPACE = true;
 
     if (IGNORE_TRAILING_SPACE) {

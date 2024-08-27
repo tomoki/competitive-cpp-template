@@ -79,6 +79,18 @@ ostream& operator<<(ostream& os, const map<K, V>& v)
     return os << "}";
 }
 
+template <typename K, typename V>
+ostream& operator<<(ostream& os, const unordered_map<K, V>& v)
+{
+    os << "{";
+    for (auto it = v.begin(); it != v.end(); ++it) {
+        if (it != v.begin())
+            os << ",";
+        os << *it;
+    }
+    return os << "}";
+}
+
 template <typename V>
 ostream& operator<<(ostream& os, const set<V>& v)
 {
@@ -178,6 +190,7 @@ constexpr array<int, 4> dy = {0, -1, 0, 1};
 
 int my_main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 {
+
     return 0;
 }
 

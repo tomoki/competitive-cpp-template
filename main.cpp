@@ -53,10 +53,10 @@ using namespace std;
 #endif
 
 template <typename A, typename B>
-ostream& operator<<(ostream& os, const pair<A, B>& v) { return os << "{" << v.first << ", " << v.second << "}"; }
+std::ostream& operator<<(std::ostream& os, const std::pair<A, B>& v) { return os << "{" << v.first << ", " << v.second << "}"; }
 
 template <typename T>
-ostream& operator<<(ostream& os, const vector<T>& v)
+std::ostream& operator<<(std::ostream& os, const std::vector<T>& v)
 {
     os << "{";
     for (auto it = v.begin(); it != v.end(); ++it) {
@@ -68,7 +68,7 @@ ostream& operator<<(ostream& os, const vector<T>& v)
 }
 
 template <typename K, typename V>
-ostream& operator<<(ostream& os, const map<K, V>& v)
+std::ostream& operator<<(std::ostream& os, const std::map<K, V>& v)
 {
     os << "{";
     for (auto it = v.begin(); it != v.end(); ++it) {
@@ -80,7 +80,7 @@ ostream& operator<<(ostream& os, const map<K, V>& v)
 }
 
 template <typename K, typename V>
-ostream& operator<<(ostream& os, const unordered_map<K, V>& v)
+std::ostream& operator<<(std::ostream& os, const std::unordered_map<K, V>& v)
 {
     os << "{";
     for (auto it = v.begin(); it != v.end(); ++it) {
@@ -92,7 +92,7 @@ ostream& operator<<(ostream& os, const unordered_map<K, V>& v)
 }
 
 template <typename V>
-ostream& operator<<(ostream& os, const set<V>& v)
+std::ostream& operator<<(std::ostream& os, const std::set<V>& v)
 {
     os << "{";
     for (auto it = v.begin(); it != v.end(); ++it) {
@@ -131,10 +131,10 @@ constexpr T powi(T x, R n, T one = 1) {
 }
 
 template <typename T>
-vector<T> input_vector(size_t n)
+std::vector<T> input_vector(size_t n)
 {
-    vector<T> x(n);
-    for (size_t i = 0; i < n; i++) cin >> x[i];
+    std::vector<T> x(n);
+    for (size_t i = 0; i < n; i++) std::cin >> x[i];
     return x;
 }
 
@@ -171,22 +171,22 @@ struct mod_int {
 private:
     uint_fast64_t m_value;
 };
-template <uint_fast64_t MOD> ostream& operator<<(ostream& os, const mod_int<MOD>& v) { return os << v.value(); }
-template <uint_fast64_t MOD> istream& operator>>(istream& is, mod_int<MOD>& v) { return is >> v.value(); }
+template <uint_fast64_t MOD> std::ostream& operator<<(std::ostream& os, const mod_int<MOD>& v) { return os << v.value(); }
+template <uint_fast64_t MOD> std::istream& operator>>(std::istream& is, mod_int<MOD>& v) { return is >> v.value(); }
 // clang-format on
 // ---------------------------------------------------------------------------
 
-using point = complex<double>;
+using point = std::complex<double>;
 using ll = long long;
-using vi = vector<int>;
-using vvi = vector<vector<int>>;
-using vll = vector<ll>;
-using vvll = vector<vector<ll>>;
-using vs = vector<string>;
+using vi = std::vector<int>;
+using vvi = std::vector<std::vector<int>>;
+using vll = std::vector<ll>;
+using vvll = std::vector<std::vector<ll>>;
+using vs = std::vector<std::string>;
 constexpr ll MOD = 1000000007;
 using md = mod_int<MOD>;
-constexpr array<int, 4> dx = {1, 0, -1, 0};
-constexpr array<int, 4> dy = {0, -1, 0, 1};
+constexpr std::array<int, 4> dx = {1, 0, -1, 0};
+constexpr std::array<int, 4> dy = {0, -1, 0, 1};
 
 int my_main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 {
@@ -329,8 +329,8 @@ int execute_main_with_dummy_stdio(const std::string& stdin_file_name, const std:
 
 int main(int argc, char** argv)
 {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
 
 #ifndef MAY_RUN_TEST_CASE
     return my_main(argc, argv);

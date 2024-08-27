@@ -190,6 +190,8 @@ constexpr array<int, 4> dy = {0, -1, 0, 1};
 
 int my_main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 {
+    // 小数点以下10桁表示にする場合は以下をコメントアウト
+    // cout << fixed << setprecision(10);
 
     return 0;
 }

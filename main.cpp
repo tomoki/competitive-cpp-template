@@ -18,6 +18,7 @@
 #include <valarray>
 #include <vector>
 #include <optional>
+#include <variant>
 
 #include <cassert>
 #include <cctype>

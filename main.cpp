@@ -31,6 +31,10 @@
 #include <thread>
 #include <unordered_map>
 #include <unordered_set>
+
+#if __has_include(<ranges>)
+#include <ranges>
+#endif
 // NOLINTEND
 
 using namespace std;
@@ -115,11 +119,14 @@ T binary_method(const std::function<bool(T)>& pred, T ok, T fail)
     else if (std::is_floating_point_v<T>) EPS = 1e-9;
 
     while (abs(ok - fail) > EPS) {
+#ifdef __cpp_lib_interpolate
         T mid = std::midpoint(ok, fail);
+#else
+        T mid = ok + (fail - ok) / 2;
+#endif
         if (pred(mid)) ok = mid;
         else fail = mid;
     }
-
     return ok;
 }
 

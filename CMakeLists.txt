@@ -27,6 +27,7 @@ function (add_my_test target test_number)
 endfunction()
 
 add_executable (main main.cpp)
+target_include_directories (main PUBLIC .) # For atcoder library
 
 add_my_test ($<TARGET_FILE:main> 1)
 add_my_test ($<TARGET_FILE:main> 2)

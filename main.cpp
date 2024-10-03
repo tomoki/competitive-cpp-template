@@ -63,7 +63,7 @@ template <typename T> std::ostream& operator<<(std::ostream& os, const std::vect
 template <typename K, typename V> std::ostream& operator<<(std::ostream& os, const std::unordered_map<K, V>& v);
 template <typename K, typename V> std::ostream& operator<<(std::ostream& os, const std::map<K, V>& v);
 template <typename V> std::ostream& operator<<(std::ostream& os, const std::set<V>& v);
-template <typename A, typename B> std::ostream& operator<<(std::ostream& os, const std::pair<A, B>& v) { return os << "{" << v.first << ", " << v.second << "}"; }
+template <typename A, typename B> std::ostream& operator<<(std::ostream& os, const std::pair<A, B>& v);
 
 template <typename A, typename B>
 std::ostream& operator<<(std::ostream& os, const std::pair<A, B>& v) { return os << "{" << v.first << ", " << v.second << "}"; }

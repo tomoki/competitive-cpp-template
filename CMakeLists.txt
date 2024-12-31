@@ -7,11 +7,11 @@ if (MSVC)
     add_compile_options (/W2)
 else()
     add_compile_options (-Wall -Wsign-compare -Wfloat-equal -Wshadow -Wno-unused-const-variable)
+    # set(CMAKE_CXX_FLAGS_DEBUG "-fsanitize=undefined,address")
 endif()
 
 # DEBUG macro enables debug print, testdriver
 add_definitions (-DDEBUG)
-
 
 set (CTEST_TEST_TIMEOUT 2)
 
@@ -34,4 +34,3 @@ add_my_test ($<TARGET_FILE:main> 2)
 add_my_test ($<TARGET_FILE:main> 3)
 add_my_test ($<TARGET_FILE:main> 4)
 add_my_test ($<TARGET_FILE:main> 5)
-
